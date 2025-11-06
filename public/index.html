@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Slate Messaging Guide - Congressional Visit Training</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-purple: #210043;
+            --primary-red: #E61313;
+            --secondary-purple: #511F4F;
+            --secondary-light-blue: #E4F9FF;
+            --secondary-light-pink: #FCE1E1;
+            --pop-yellow: #FFC547;
+            --pop-pink: #FA009A;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: var(--primary-purple);
+            background: linear-gradient(135deg, var(--secondary-light-blue) 0%, var(--secondary-light-pink) 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(33, 0, 67, 0.2);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary-purple) 0%, var(--secondary-purple) 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-red) 0%, var(--pop-pink) 50%, var(--pop-yellow) 100%);
+        }
+        
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+        
+        .progress-bar {
+            background: rgba(255,255,255,0.2);
+            height: 8px;
+            border-radius: 4px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: var(--pop-yellow);
+            height: 100%;
+            width: 25%;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .step {
+            display: none;
+        }
+        
+        .step.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h2 {
+            color: var(--primary-purple);
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            font-weight: 700;
+        }
+        
+        h3 {
+            color: var(--secondary-purple);
+            margin: 20px 0 15px 0;
+            font-size: 1.3em;
+            font-weight: 700;
+        }
+        
+        .question-group {
+            margin-bottom: 30px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 700;
+            color: var(--primary-purple);
+        }
+        
+        input[type="text"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--secondary-light-blue);
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+            font-family: 'Roboto', sans-serif;
+            background: white;
+        }
+        
+        input[type="text"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary-red);
+            background: var(--secondary-light-blue);
+        }
+        
+        select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23210043' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 35px;
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .radio-group,
+        .checkbox-group {
+            display: grid;
+            gap: 12px;
+            margin-top: 12px;
+        }
+        
+        .radio-item,
+        .checkbox-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 12px;
+            background: var(--secondary-light-blue);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+        }
+        
+        .radio-item:hover,
+        .checkbox-item:hover {
+            background: var(--secondary-light-pink);
+            border-color: var(--primary-red);
+        }
+        
+        .radio-item input[type="radio"],
+        .checkbox-item input[type="checkbox"] {
+            margin-right: 12px;
+            margin-top: 3px;
+            cursor: pointer;
+            accent-color: var(--primary-red);
+        }
+        
+        .radio-item input[type="radio"]:checked + label,
+        .checkbox-item input[type="checkbox"]:checked + label {
+            color: var(--primary-purple);
+            font-weight: 700;
+        }
+        
+        .radio-item:has(input:checked),
+        .checkbox-item:has(input:checked) {
+            background: var(--secondary-light-pink);
+            border-color: var(--primary-red);
+        }
+        
+        .moral-traits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .trait-checkbox {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background: var(--secondary-light-blue);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+            font-size: 14px;
+        }
+        
+        .trait-checkbox:hover {
+            background: var(--secondary-light-pink);
+            border-color: var(--pop-pink);
+        }
+        
+        .trait-checkbox input[type="checkbox"] {
+            margin-right: 8px;
+            cursor: pointer;
+            accent-color: var(--primary-red);
+        }
+        
+        .trait-checkbox:has(input:checked) {
+            background: var(--secondary-light-pink);
+            border-color: var(--primary-red);
+            font-weight: 700;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid var(--secondary-light-blue);
+        }
+        
+        button {
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: 700;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        .btn-back {
+            background: var(--secondary-light-blue);
+            color: var(--primary-purple);
+        }
+        
+        .btn-back:hover {
+            background: var(--secondary-purple);
+            color: white;
+        }
+        
+        .btn-next,
+        .btn-submit {
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--pop-pink) 100%);
+            color: white;
+        }
+        
+        .btn-next:hover,
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(230, 19, 19, 0.4);
+        }
+        
+        .results {
+            animation: slideUp 0.5s ease;
+        }
+        
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .audience-profile {
+            background: linear-gradient(135deg, var(--secondary-light-blue) 0%, var(--secondary-light-pink) 100%);
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            border: 2px solid var(--primary-purple);
+        }
+        
+        .profile-badge {
+            display: inline-block;
+            background: var(--primary-purple);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .recommendations {
+            background: var(--secondary-light-blue);
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+        
+        .recommendation-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--primary-red);
+        }
+        
+        .recommendation-item h4 {
+            color: var(--primary-purple);
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .checklist {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 2px solid var(--secondary-purple);
+        }
+        
+        .checklist h4 {
+            color: var(--primary-purple);
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        
+        .checklist ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .checklist li {
+            padding: 8px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+        
+        .checklist li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--primary-red);
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .info-box {
+            background: var(--secondary-light-pink);
+            border-left: 4px solid var(--pop-pink);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .info-box strong {
+            color: var(--primary-purple);
+        }
+        
+        .download-section {
+            text-align: center;
+            margin-top: 30px;
+            padding: 30px;
+            background: linear-gradient(135deg, var(--secondary-light-blue) 0%, var(--secondary-light-pink) 100%);
+            border-radius: 12px;
+        }
+        
+        .download-btn {
+            background: linear-gradient(135deg, var(--primary-purple) 0%, var(--secondary-purple) 100%);
+            color: white;
+            padding: 15px 40px;
+            font-size: 18px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+            font-weight: 700;
+        }
+        
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(33, 0, 67, 0.4);
+        }
+        
+        .error-message {
+            color: var(--primary-red);
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .required {
+            color: var(--primary-red);
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: var(--primary-purple);
+        }
+        
+        .spinner {
+            border: 3px solid var(--secondary-light-blue);
+            border-top: 3px solid var(--primary-red);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Clean Slate Messaging Guide</h1>
+            <p>Congressional Visit Training Tool</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+        
+        <div class="content">
+            <!-- Step 1: Basic Information -->
+            <div class="step active" id="step1">
+                <h2>Step 1: Your Information</h2>
+                
+                <div class="question-group">
+                    <label for="advocateName">Your Name <span class="required">*</span></label>
+                    <input type="text" id="advocateName" required>
+                    <span class="error-message">Please enter your name</span>
+                </div>
+                
+                <div class="question-group">
+                    <label for="congressPerson">Congressional Office You're Visiting <span class="required">*</span></label>
+                    <select id="congressPerson" required>
+                        <option value="">Select a Congressional Office</option>
+                        <option value="CA-12|Rep. Lateefah Simon">(CA-12) Rep. Lateefah Simon</option>
+                        <option value="CA-51|Rep. Sara Jacobs">(CA-51) Rep. Sara Jacobs</option>
+                        <option value="CA-48|Rep. Darrell Issa">(CA-48) Rep. Darrell Issa</option>
+                        <option value="CO-1|Rep. Diana DeGette">(CO-1) Rep. Diana DeGette</option>
+                        <option value="CO-6|Rep. Jason Crow">(CO-6) Rep. Jason Crow</option>
+                        <option value="DE-At-Large|Rep. Sarah McBride">(DE-At-Large) Rep. Sarah McBride</option>
+                        <option value="FL-23|Rep. Jared Moskowitz">(FL-23) Rep. Jared Moskowitz</option>
+                        <option value="FL-1|Rep. Jimmy Patronis">(FL-1) Rep. Jimmy Patronis</option>
+                        <option value="GA-2|Rep. Sanford Bishop">(GA-2) Rep. Sanford Bishop</option>
+                        <option value="GA-10|Rep. Mike Collins">(GA-10) Rep. Mike Collins</option>
+                        <option value="GA-3|Rep. Brian Jack">(GA-3) Rep. Brian Jack</option>
+                        <option value="GA-8|Rep. Austin Scott">(GA-8) Rep. Austin Scott</option>
+                        <option value="IL-1|Rep. Jonathan Jackson">(IL-1) Rep. Jonathan Jackson</option>
+                        <option value="IL-2|Rep. Robin Kelly">(IL-2) Rep. Robin Kelly</option>
+                        <option value="IL-4|Rep. Chuy Garcia">(IL-4) Rep. Chuy Garcia</option>
+                        <option value="IL-7|Rep. Danny Davis">(IL-7) Rep. Danny Davis</option>
+                        <option value="IL-9|Rep. Jan Schakowsky">(IL-9) Rep. Jan Schakowsky</option>
+                        <option value="KY-2|Rep. Brett Guthrie">(KY-2) Rep. Brett Guthrie</option>
+                        <option value="KY-3|Rep. Morgan McGarvey">(KY-3) Rep. Morgan McGarvey</option>
+                        <option value="MI-11|Rep. Haley Stevens">(MI-11) Rep. Haley Stevens</option>
+                        <option value="MI-7|Rep. Tom Barrett">(MI-7) Rep. Tom Barrett</option>
+                        <option value="MO-1|Rep. Wesley Bell">(MO-1) Rep. Wesley Bell</option>
+                        <option value="MS-2|Rep. Bennie Thompson">(MS-2) Rep. Bennie Thompson</option>
+                        <option value="MT-1|Rep. Ryan Zinke">(MT-1) Rep. Ryan Zinke</option>
+                        <option value="MT-2|Rep. Troy Downing">(MT-2) Rep. Troy Downing</option>
+                        <option value="NC-12|Rep. Alma Adams">(NC-12) Rep. Alma Adams</option>
+                        <option value="NC-3|Rep. Greg Murphy">(NC-3) Rep. Greg Murphy</option>
+                        <option value="NC-8|Rep. Mark Harris">(NC-8) Rep. Mark Harris</option>
+                        <option value="NJ-12|Rep. Bonnie Watson Coleman">(NJ-12) Rep. Bonnie Watson Coleman</option>
+                        <option value="NJ-3|Rep. Herbert Conaway">(NJ-3) Rep. Herbert Conaway</option>
+                        <option value="NY-1|Rep. Nick LaLota">(NY-1) Rep. Nick LaLota</option>
+                        <option value="OH-8|Rep. Warren Davidson">(OH-8) Rep. Warren Davidson</option>
+                        <option value="OK-1|Rep. Kevin Hern">(OK-1) Rep. Kevin Hern</option>
+                        <option value="OK-3|Rep. Frank Lucas">(OK-3) Rep. Frank Lucas</option>
+                        <option value="PA-3|Rep. Dwight Evans">(PA-3) Rep. Dwight Evans</option>
+                        <option value="TX-30|Rep. Jasmine Crockett">(TX-30) Rep. Jasmine Crockett</option>
+                        <option value="TX-35|Rep. Greg Casar">(TX-35) Rep. Greg Casar</option>
+                        <option value="TX-37|Rep. Lloyd Doggett">(TX-37) Rep. Lloyd Doggett</option>
+                        <option value="TX-10|Rep. Michael McCaul">(TX-10) Rep. Michael McCaul</option>
+                        <option value="TX-17|Rep. Pete Sessions">(TX-17) Rep. Pete Sessions</option>
+                        <option value="TX-24|Rep. Beth Van Duyne">(TX-24) Rep. Beth Van Duyne</option>
+                    </select>
+                    <span class="error-message">Please select a congressional office</span>
+                </div>
+                
+                <div class="navigation">
+                    <div></div>
+                    <button class="btn-next" onclick="nextStep()">Next →</button>
+                </div>
+            </div>
+            
+            <!-- Step 2: Audience Adjectives -->
+            <div class="step" id="step2">
+                <h2>Step 2: Describe Your Audience</h2>
+                
+                <div class="info-box">
+                    <strong>Think about the congressional office you'll be visiting.</strong> Consider the representative, their staff, and their constituents. What are their main characteristics?
+                </div>
+                
+                <div class="question-group">
+                    <label>Three Adjectives That Describe Your Audience <span class="required">*</span></label>
+                    <input type="text" id="adjective1" placeholder="First adjective" required style="margin-bottom: 10px;">
+                    <input type="text" id="adjective2" placeholder="Second adjective" required style="margin-bottom: 10px;">
+                    <input type="text" id="adjective3" placeholder="Third adjective" required>
+                    <span class="error-message">Please provide all three adjectives</span>
+                </div>
+                
+                <div class="navigation">
+                    <button class="btn-back" onclick="previousStep()">← Back</button>
+                    <button class="btn-next" onclick="nextStep()">Next →</button>
+                </div>
+            </div>
+            
+            <!-- Step 3: Audience Values and Concerns -->
+            <div class="step" id="step3">
+                <h2>Step 3: Audience Values and Concerns</h2>
+                
+                <div class="info-box">
+                    <strong>What does this congressional office care about?</strong> Think genuinely about their priorities and concerns without being cynical.
+                </div>
+                
+                <div class="question-group">
+                    <label>Three Things Your Audience Cares About <span class="required">*</span></label>
+                    <textarea id="care1" placeholder="First priority or concern" required style="margin-bottom: 10px;"></textarea>
+                    <textarea id="care2" placeholder="Second priority or concern" required style="margin-bottom: 10px;"></textarea>
+                    <textarea id="care3" placeholder="Third priority or concern" required></textarea>
+                    <span class="error-message">Please describe all three priorities</span>
+                </div>
+                
+                <div class="question-group">
+                    <label>Primary Concern About Criminal Justice Reform</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="concernSafety" name="primaryConcern" value="safety">
+                            <label for="concernSafety">Public safety and crime prevention</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="concernFairness" name="primaryConcern" value="fairness">
+                            <label for="concernFairness">Fairness and second chances</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="concernEconomy" name="primaryConcern" value="economy">
+                            <label for="concernEconomy">Economic impact and workforce</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="concernFiscal" name="primaryConcern" value="fiscal">
+                            <label for="concernFiscal">Government efficiency and fiscal responsibility</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="concernRights" name="primaryConcern" value="rights">
+                            <label for="concernRights">Individual rights and liberty</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="navigation">
+                    <button class="btn-back" onclick="previousStep()">← Back</button>
+                    <button class="btn-next" onclick="nextStep()">Next →</button>
+                </div>
+            </div>
+            
+            <!-- Step 4: Moral Foundation Traits -->
+            <div class="step" id="step4">
+                <h2>Step 4: Audience Characteristics</h2>
+                
+                <div class="info-box">
+                    <strong>Select all traits that apply to your audience.</strong> These help us understand their moral foundations and values.
+                </div>
+                
+                <h3>Values & Priorities</h3>
+                <div class="moral-traits-grid">
+                    <label class="trait-checkbox">
+                        <input type="checkbox" name="traits" value="care-compassionate">
+                        Compassionate
+                    </label>
+                    <label class="trait-checkbox">
+                        <input type="checkbox" name="traits" value="care-protective">
+                        Protective of vulnerable
+                    </label>
+                    <label class="trait-checkbox">
+                        <input type="checkbox" name="traits" value="care-empathetic">
+                        Empathetic
+                    </label>
+                    <label class="trait-checkbox">
+                        <input type="checkbox" name="traits" value="harm-concerned">
+                        Concerned about harm
+                    </label>
+                    <label class="trait-checkbox">
+                        <input type="checkbox" name="traits" value="fairness-equality">
+                        Values equality
+                    </label>
+                    <label class="trait-checkbox">
+                        <input type="checkbox" name="traits" value="fairness-justice">
+                        Seeks justice
+                    </label>
+                    <label class="trait-checkbox">
+                        <input type="checkbox" name="traits" value="fairness-reciprocity">
+                        Values reciprocity
+                    </label>
+                    <label class="trait-checkbox">
+                        <input type="checkbox" name="traits" value="cheating-concerned">
+                        Opposes unfair advantages
+                    </label>
+                    <label class="trait-checkbox">
+                        <input type="checkbox" name="traits" value="liberty-freedom">
+                        Values personal freedom
+                    </label>
+                    <label class="trait-checkbox">
+                        <input type="checkbox" name="traits" value="liberty-rights">
+                        Defends individual rights
+                    </label>
+                    <label class="trait-checkbox">
+                        <input type="checkbox" name="traits" value="oppression-resists">
+                        Resists government overreach
+                    </label>
+                    <label class="trait-checkbox">
+                        <input type="checkbox" name="traits" value="loyalty-community">
+                        Community-oriented
+                    </label>
+                    <label class="trait-checkbox">
+                        <input type="checkbox" name="traits" value="loyalty-patriotic">
+                        Patriotic
+                    </label>
+                    <label class="trait-checkbox">
+                        <input type="checkbox" name="traits" value="loyalty-family">
+                        Family-focused
+                    </label>
+                    <label class="trait-checkbox">
+                        <input type="checkbox" name="traits" value="authority-order">
+                        Values law and order
+                    </label>
+                    <label class="trait-checkbox">
+                        <input type="checkbox" name="traits" value="authority-tradition">
+                        Respects tradition
+                    </label>
+                    <label class="trait-checkbox">
+                        <input type="checkbox" name="traits" value="authority-leadership">
+                        Respects authority
+                    </label>
+                    <label class="trait-checkbox">
+                        <input type="checkbox" name="traits" value="sanctity-faith">
+                        Faith-based values
+                    </label>
+                    <label class="trait-checkbox">
+                        <input type="checkbox" name="traits" value="sanctity-moral">
+                        Strong moral code
+                    </label>
+                    <label class="trait-checkbox">
+                        <input type="checkbox" name="traits" value="sanctity-dignity">
+                        Values human dignity
+                    </label>
+                </div>
+                
+                <h3>Attitudes Toward Justice</h3>
+                <div class="moral-traits-grid">
+                    <label class="trait-checkbox">
+                        <input type="checkbox" name="traits" value="justice-redemption">
+                        Believes in redemption
+                    </label>
+                    <label class="trait-checkbox">
+                        <input type="checkbox" name="traits" value="justice-accountability">
+                        Emphasizes accountability
+                    </label>
+                    <label class="trait-checkbox">
+                        <input type="checkbox" name="traits" value="justice-punishment">
+                        Tough on crime
+                    </label>
+                    <label class="trait-checkbox">
+                        <input type="checkbox" name="traits" value="justice-rehabilitation">
+                        Supports rehabilitation
+                    </label>
+                    <label class="trait-checkbox">
+                        <input type="checkbox" name="traits" value="justice-victim">
+                        Victim-focused
+                    </label>
+                    <label class="trait-checkbox">
+                        <input type="checkbox" name="traits" value="justice-safety">
+                        Prioritizes public safety
+                    </label>
+                    <label class="trait-checkbox">
+                        <input type="checkbox" name="traits" value="justice-efficiency">
+                        Values efficiency
+                    </label>
+                    <label class="trait-checkbox">
+                        <input type="checkbox" name="traits" value="justice-fiscal">
+                        Fiscally conservative
+                    </label>
+                    <label class="trait-checkbox">
+                        <input type="checkbox" name="traits" value="justice-datadriven">
+                        Data-driven
+                    </label>
+                    <label class="trait-checkbox">
+                        <input type="checkbox" name="traits" value="justice-bipartisan">
+                        Seeks bipartisan solutions
+                    </label>
+                </div>
+                
+                <div class="navigation">
+                    <button class="btn-back" onclick="previousStep()">← Back</button>
+                    <button class="btn-submit" onclick="generateResults()">Generate Messaging Guide</button>
+                </div>
+            </div>
+            
+            <!-- Results -->
+            <div class="step results" id="results">
+                <h2>Your Personalized Messaging Guide</h2>
+                
+                <div id="resultsContent">
+                    <!-- Results will be populated here -->
+                </div>
+                
+                <div class="download-section">
+                    <h3>Save Your Results</h3>
+                    <p>Download your personalized messaging guide for reference during your congressional visit.</p>
+                    <button class="download-btn" onclick="downloadPDF()">📥 Download as PDF</button>
+                </div>
+                
+                <div class="navigation">
+                    <button class="btn-back" onclick="startOver()">Start Over</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // API Configuration
+        const API_BASE_URL = window.location.hostname === 'localhost' ? 'http://localhost:3000/api' : '/api';
+        
+        // Audience profiles data
+        const audienceProfiles = {
+            empathetic: {
+                name: "Empathetic Ambassadors",
+                description: "Have lived experiences or know someone with a record. Express less worry about crime. Reject harsh punishment as crime reduction. Value fairness and second chances.",
+                keyTraits: ["care-compassionate", "care-empathetic", "fairness-equality", "liberty-freedom", "justice-redemption"],
+                messaging: [
+                    "Emphasize personal redemption stories",
+                    "Highlight ripple effects on families and communities",
+                    "Frame as an equalizer for systemic disadvantages",
+                    "Use terms like 'compassion' and 'human spirit'",
+                    "Focus on uplifting families and future generations"
+                ]
+            },
+            conflicted: {
+                name: "Conflicted Harm Reducers",
+                description: "Want to reduce harm on all sides - less crime AND less harm to those with records. Express empathy while maintaining safety concerns.",
+                keyTraits: ["care-protective", "harm-concerned", "fairness-justice", "justice-accountability", "justice-safety"],
+                messaging: [
+                    "Balance accountability with opportunity",
+                    "Emphasize guardrails and oversight",
+                    "Provide data on low recidivism rates",
+                    "Share stories of personal growth with evidence",
+                    "Clarify that law enforcement retains access to records"
+                ]
+            },
+            fearful: {
+                name: "Fearful Protectors",
+                description: "Heightened concerns about crime and safety. Strong desire to protect loved ones. Skeptical about rehabilitation.",
+                keyTraits: ["harm-concerned", "loyalty-family", "authority-order", "justice-victim", "justice-safety"],
+                messaging: [
+                    "Lead with public safety benefits",
+                    "Emphasize human oversight in the process",
+                    "Provide specific examples of eligible vs. ineligible offenses",
+                    "Focus on low-level, non-violent offenses",
+                    "Include success stories with safety outcomes"
+                ]
+            },
+            traditional: {
+                name: "Tough-on-Crime Traditionalists",
+                description: "Value law and order, personal responsibility, and accountability. Believe in consequences as deterrents.",
+                keyTraits: ["authority-tradition", "authority-leadership", "loyalty-patriotic", "justice-punishment", "justice-accountability"],
+                messaging: [
+                    "Emphasize personal responsibility and earned redemption",
+                    "Highlight bipartisan support",
+                    "Focus on government efficiency and reduced costs",
+                    "Frame as respecting the law - people served their time",
+                    "Use law enforcement messengers"
+                ]
+            }
+        };
+        
+        // Moral foundation messaging map
+        const moralFoundationMessages = {
+            care: [
+                "Clean Slate helps people avoid ongoing harm from stigma and barriers",
+                "Shows compassion while maintaining public safety",
+                "Protects children from the collateral consequences of a parent's record"
+            ],
+            fairness: [
+                "Everyone deserves a fair shot at rebuilding after paying their debt",
+                "Levels the playing field for those facing systemic barriers",
+                "Ensures equal opportunity for redemption"
+            ],
+            liberty: [
+                "Frees people from the oppressive burden of a permanent record",
+                "Empowers individuals to reclaim their freedom and opportunity",
+                "Removes government barriers to self-sufficiency"
+            ],
+            loyalty: [
+                "Helps veterans, parents, and community members return to full participation",
+                "Strengthens families and communities",
+                "Shows we take care of our own"
+            ],
+            authority: [
+                "Respects the rule of law - people have served their time",
+                "Operates within the justice system with proper oversight",
+                "Supported by law enforcement and prosecutors"
+            ],
+            sanctity: [
+                "Recognizes human dignity and capacity for transformation",
+                "Aligns with faith-based values of redemption and grace",
+                "People are more than their worst mistake"
+            ]
+        };
+        
+        let currentStep = 1;
+        const totalSteps = 4;
+        
+        function updateProgress() {
+            const progressFill = document.getElementById('progressFill');
+            progressFill.style.width = `${(currentStep / totalSteps) * 100}%`;
+        }
+        
+        function showStep(stepNumber) {
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.remove('active');
+            });
+            if (stepNumber === 'results') {
+                document.getElementById('results').classList.add('active');
+            } else {
+                document.getElementById(`step${stepNumber}`).classList.add('active');
+            }
+            updateProgress();
+        }
+        
+        function validateStep(stepNumber) {
+            let isValid = true;
+            const step = document.getElementById(`step${stepNumber}`);
+            
+            // Reset error messages
+            step.querySelectorAll('.error-message').forEach(msg => {
+                msg.style.display = 'none';
+            });
+            
+            // Validate required fields
+            const requiredInputs = step.querySelectorAll('input[required], textarea[required], select[required]');
+            requiredInputs.forEach(input => {
+                if (!input.value.trim()) {
+                    isValid = false;
+                    const errorMsg = input.parentElement.querySelector('.error-message');
+                    if (errorMsg) {
+                        errorMsg.style.display = 'block';
+                    }
+                }
+            });
+            
+            return isValid;
+        }
+        
+        function nextStep() {
+            if (validateStep(currentStep)) {
+                if (currentStep < totalSteps) {
+                    currentStep++;
+                    showStep(currentStep);
+                    window.scrollTo(0, 0);
+                }
+            }
+        }
+        
+        function previousStep() {
+            if (currentStep > 1) {
+                currentStep--;
+                showStep(currentStep);
+                window.scrollTo(0, 0);
+            }
+        }
+        
+        function analyzeAudience() {
+            const selectedTraits = Array.from(document.querySelectorAll('input[name="traits"]:checked'))
+                .map(cb => cb.value);
+            
+            let scores = {};
+            for (let profile in audienceProfiles) {
+                scores[profile] = 0;
+                audienceProfiles[profile].keyTraits.forEach(trait => {
+                    if (selectedTraits.includes(trait)) {
+                        scores[profile] += 2;
+                    }
+                    const traitCategory = trait.split('-')[0];
+                    selectedTraits.forEach(selected => {
+                        if (selected.startsWith(traitCategory) && selected !== trait) {
+                            scores[profile] += 0.5;
+                        }
+                    });
+                });
+            }
+            
+            const primaryConcern = document.querySelector('input[name="primaryConcern"]:checked')?.value;
+            
+            if (primaryConcern === 'safety') {
+                scores.fearful += 3;
+                scores.traditional += 2;
+            } else if (primaryConcern === 'fairness') {
+                scores.empathetic += 3;
+                scores.conflicted += 1;
+            } else if (primaryConcern === 'fiscal') {
+                scores.traditional += 3;
+            } else if (primaryConcern === 'rights') {
+                scores.empathetic += 2;
+                scores.traditional += 1;
+            }
+            
+            let bestMatch = 'conflicted';
+            let highestScore = 0;
+            for (let profile in scores) {
+                if (scores[profile] > highestScore) {
+                    highestScore = scores[profile];
+                    bestMatch = profile;
+                }
+            }
+            
+            return bestMatch;
+        }
+        
+        async function generateResults() {
+            if (!validateStep(4)) {
+                return;
+            }
+            
+            // Show loading state
+            document.getElementById('resultsContent').innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Generating your personalized messaging guide...</p>
+                </div>
+            `;
+            showStep('results');
+            
+            const profileType = analyzeAudience();
+            const profile = audienceProfiles[profileType];
+            
+            // Collect form data
+            const formData = {
+                name: document.getElementById('advocateName').value,
+                congressionalOffice: document.getElementById('congressPerson').value,
+                adjectives: [
+                    document.getElementById('adjective1').value,
+                    document.getElementById('adjective2').value,
+                    document.getElementById('adjective3').value
+                ],
+                priorities: [
+                    document.getElementById('care1').value,
+                    document.getElementById('care2').value,
+                    document.getElementById('care3').value
+                ],
+                primaryConcern: document.querySelector('input[name="primaryConcern"]:checked')?.value || 'unknown',
+                selectedTraits: Array.from(document.querySelectorAll('input[name="traits"]:checked'))
+                    .map(cb => cb.value),
+                audienceProfile: profileType,
+                timestamp: new Date().toISOString()
+            };
+            
+            // Send to API
+            try {
+                await fetch(`${API_BASE_URL}/participants`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+            } catch (error) {
+                console.error('Failed to save participant data:', error);
+            }
+            
+            // Generate results content
+            const selectedTraits = formData.selectedTraits;
+            const foundations = {
+                care: 0, fairness: 0, liberty: 0,
+                loyalty: 0, authority: 0, sanctity: 0
+            };
+            
+            selectedTraits.forEach(trait => {
+                const foundation = trait.split('-')[0];
+                if (foundation === 'harm') foundations.care++;
+                else if (foundation === 'cheating') foundations.fairness++;
+                else if (foundation === 'oppression') foundations.liberty++;
+                else if (foundation in foundations) foundations[foundation]++;
+            });
+            
+            const topFoundations = Object.entries(foundations)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 3)
+                .map(f => f[0]);
+            
+            let resultsHTML = `
+                <div class="audience-profile">
+                    <span class="profile-badge">${profile.name}</span>
+                    <p><strong>Profile Match:</strong> ${profile.description}</p>
+                    <p><strong>Congressional Office:</strong> ${formData.congressionalOffice.split('|')[1]}</p>
+                </div>
+                
+                <div class="recommendations">
+                    <h3>🎯 Key Messaging Strategies</h3>
+            `;
+            
+            profile.messaging.forEach(msg => {
+                resultsHTML += `
+                    <div class="recommendation-item">
+                        <p>${msg}</p>
+                    </div>
+                `;
+            });
+            
+            resultsHTML += `
+                </div>
+                
+                <div class="recommendations">
+                    <h3>💡 Moral Foundation Appeals</h3>
+                    <p>Based on your audience analysis, emphasize these values:</p>
+            `;
+            
+            topFoundations.forEach(foundation => {
+                resultsHTML += `
+                    <div class="recommendation-item">
+                        <h4>${foundation.charAt(0).toUpperCase() + foundation.slice(1)}</h4>
+                        <ul>
+            `;
+                moralFoundationMessages[foundation].forEach(msg => {
+                    resultsHTML += `<li>${msg}</li>`;
+                });
+                resultsHTML += `
+                        </ul>
+                    </div>
+                `;
+            });
+            
+            resultsHTML += `
+                </div>
+                
+                <div class="recommendations">
+                    <h3>📋 Tailored Talking Points</h3>
+                    <div class="recommendation-item">
+                        <h4>Opening Statement</h4>
+                        <p>"Thank you for taking the time to meet with us today. We're here to discuss Clean Slate policies that can strengthen our communities while maintaining public safety..."</p>
+                    </div>
+            `;
+            
+            if (profileType === 'fearful' || profileType === 'traditional') {
+                resultsHTML += `
+                    <div class="recommendation-item">
+                        <h4>Address Concerns First</h4>
+                        <ul>
+                            <li>Start by acknowledging legitimate safety concerns</li>
+                            <li>Emphasize that serious offenses remain visible to law enforcement</li>
+                            <li>Highlight the rigorous vetting process and human oversight</li>
+                        </ul>
+                    </div>
+                `;
+            } else if (profileType === 'empathetic') {
+                resultsHTML += `
+                    <div class="recommendation-item">
+                        <h4>Build on Shared Values</h4>
+                        <ul>
+                            <li>Connect to their commitment to equity and second chances</li>
+                            <li>Share success stories from states with Clean Slate laws</li>
+                            <li>Emphasize community and family benefits</li>
+                        </ul>
+                    </div>
+                `;
+            }
+            
+            resultsHTML += `
+                </div>
+                
+                <div class="checklist">
+                    <h4>✅ Messaging Checklist</h4>
+                    <ul>
+                        <li>Establish shared values early (community safety, family well-being, accountability)</li>
+                        <li>Use "person with a record" instead of jargon like "justice-impacted"</li>
+                        <li>Include personal stories that show transformation and accountability</li>
+                        <li>Emphasize "earned second chance" tied to accountability</li>
+                        <li>Clarify that automation streamlines process but includes human oversight</li>
+                        <li>Address guardrails that prevent ineligible records from being sealed</li>
+                        <li>Connect economic benefits to public safety outcomes</li>
+                        <li>End with clear call to action and offer to provide more information</li>
+                    </ul>
+                </div>
+                
+                <div class="checklist">
+                    <h4>⚠️ What to Avoid</h4>
+                    <ul>
+                        <li>Don't imply multiple chances - use "an earned second chance"</li>
+                        <li>Avoid saying records are "cleared" or "erased" - use "sealed"</li>
+                        <li>Don't lead with economic arguments - make them supporting points</li>
+                        <li>Avoid overwhelming with statistics - use 1-2 key data points</li>
+                        <li>Don't ignore legitimate concerns - acknowledge and address them</li>
+                    </ul>
+                </div>
+            `;
+            
+            document.getElementById('resultsContent').innerHTML = resultsHTML;
+            window.scrollTo(0, 0);
+        }
+        
+        function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            const congressSelect = document.getElementById('congressPerson');
+            const congressOffice = congressSelect.options[congressSelect.selectedIndex].text;
+            
+            // Title
+            doc.setFontSize(20);
+            doc.setTextColor(33, 0, 67); // CSI Purple
+            doc.text('Clean Slate Messaging Guide', 105, 20, { align: 'center' });
+            
+            doc.setFontSize(12);
+            doc.text(`Congressional Office: ${congressOffice}`, 105, 30, { align: 'center' });
+            doc.text(`Prepared for: ${document.getElementById('advocateName').value}`, 105, 40, { align: 'center' });
+            doc.text(`Date: ${new Date().toLocaleDateString()}`, 105, 50, { align: 'center' });
+            
+            // Content
+            const content = document.getElementById('resultsContent');
+            const text = content.innerText;
+            
+            doc.setFontSize(10);
+            doc.setTextColor(0, 0, 0);
+            
+            const lines = doc.splitTextToSize(text, 170);
+            let y = 70;
+            
+            for (let i = 0; i < lines.length; i++) {
+                if (y > 270) {
+                    doc.addPage();
+                    y = 20;
+                }
+                doc.text(lines[i], 20, y);
+                y += 5;
+            }
+            
+            doc.save('clean-slate-messaging-guide.pdf');
+        }
+        
+        function startOver() {
+            currentStep = 1;
+            showStep(1);
+            
+            // Reset form
+            document.querySelectorAll('input[type="text"], textarea, select').forEach(input => {
+                input.value = '';
+            });
+            document.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(input => {
+                input.checked = false;
+            });
+            
+            window.scrollTo(0, 0);
+        }
+    </script>
+</body>
+</html>

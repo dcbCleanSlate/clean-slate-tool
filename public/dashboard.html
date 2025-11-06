@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean Slate Training - Facilitator Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-purple: #210043;
+            --primary-red: #E61313;
+            --secondary-purple: #511F4F;
+            --secondary-light-blue: #E4F9FF;
+            --secondary-light-pink: #FCE1E1;
+            --pop-yellow: #FFC547;
+            --pop-pink: #FA009A;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: var(--primary-purple);
+            background: linear-gradient(135deg, var(--secondary-light-blue) 0%, var(--secondary-light-pink) 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary-purple) 0%, var(--secondary-purple) 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 12px 12px 0 0;
+            position: relative;
+        }
+        
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-red) 0%, var(--pop-pink) 50%, var(--pop-yellow) 100%);
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.95;
+        }
+        
+        .dashboard-controls {
+            background: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--secondary-light-blue);
+        }
+        
+        .refresh-btn {
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--pop-pink) 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+        
+        .refresh-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(230, 19, 19, 0.4);
+        }
+        
+        .last-updated {
+            color: var(--secondary-purple);
+            font-size: 14px;
+        }
+        
+        .auto-refresh-toggle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            background: var(--secondary-light-blue);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .toggle-switch.active {
+            background: var(--primary-red);
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+        
+        .toggle-switch.active .toggle-slider {
+            transform: translateX(30px);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            background: white;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, var(--secondary-light-blue) 0%, var(--secondary-light-pink) 100%);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid var(--primary-purple);
+        }
+        
+        .stat-number {
+            font-size: 3em;
+            font-weight: 700;
+            color: var(--primary-purple);
+            margin: 10px 0;
+        }
+        
+        .stat-label {
+            color: var(--secondary-purple);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9em;
+        }
+        
+        .charts-container {
+            background: white;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+        }
+        
+        .chart-box {
+            background: var(--secondary-light-blue);
+            padding: 20px;
+            border-radius: 12px;
+            min-height: 300px;
+        }
+        
+        .chart-title {
+            color: var(--primary-purple);
+            font-weight: 700;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .participants-table {
+            background: white;
+            padding: 20px;
+            border-radius: 0 0 12px 12px;
+        }
+        
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .table-title {
+            color: var(--primary-purple);
+            font-weight: 700;
+            font-size: 1.4em;
+        }
+        
+        .search-bar {
+            padding: 8px 15px;
+            border: 2px solid var(--secondary-light-blue);
+            border-radius: 8px;
+            width: 300px;
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        .search-bar:focus {
+            outline: none;
+            border-color: var(--primary-red);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        thead {
+            background: linear-gradient(135deg, var(--primary-purple) 0%, var(--secondary-purple) 100%);
+            color: white;
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+        
+        th {
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            letter-spacing: 0.5px;
+        }
+        
+        tbody tr {
+            border-bottom: 1px solid var(--secondary-light-blue);
+            transition: background 0.2s ease;
+        }
+        
+        tbody tr:hover {
+            background: var(--secondary-light-pink);
+        }
+        
+        .profile-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 700;
+            color: white;
+        }
+        
+        .badge-empathetic {
+            background: var(--pop-pink);
+        }
+        
+        .badge-conflicted {
+            background: var(--pop-yellow);
+            color: var(--primary-purple);
+        }
+        
+        .badge-fearful {
+            background: var(--primary-red);
+        }
+        
+        .badge-traditional {
+            background: var(--secondary-purple);
+        }
+        
+        .export-section {
+            background: linear-gradient(135deg, var(--secondary-light-blue) 0%, var(--secondary-light-pink) 100%);
+            padding: 30px;
+            text-align: center;
+            margin-top: 20px;
+            border-radius: 12px;
+        }
+        
+        .export-btn {
+            background: linear-gradient(135deg, var(--primary-purple) 0%, var(--secondary-purple) 100%);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(33, 0, 67, 0.4);
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--primary-purple);
+        }
+        
+        .spinner {
+            border: 3px solid var(--secondary-light-blue);
+            border-top: 3px solid var(--primary-red);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--secondary-purple);
+        }
+        
+        .empty-state h3 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
+        
+        .chart-bar {
+            background: var(--primary-purple);
+            height: 30px;
+            margin: 5px 0;
+            border-radius: 4px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .chart-bar:hover {
+            background: var(--primary-red);
+        }
+        
+        .chart-bar-label {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-weight: 700;
+            font-size: 0.9em;
+        }
+        
+        .chart-bar-value {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-weight: 700;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="header">
+            <h1>Clean Slate Training Dashboard</h1>
+            <p>Facilitator View - Real-time Participant Analytics</p>
+        </div>
+        
+        <div class="dashboard-controls">
+            <div class="last-updated">
+                Last updated: <span id="lastUpdated">Never</span>
+            </div>
+            <div class="auto-refresh-toggle">
+                <label>Auto-refresh (30s)</label>
+                <div class="toggle-switch" id="autoRefreshToggle" onclick="toggleAutoRefresh()">
+                    <div class="toggle-slider"></div>
+                </div>
+            </div>
+            <button class="refresh-btn" onclick="loadDashboardData()">🔄 Refresh Now</button>
+        </div>
+        
+        <div class="stats-grid" id="statsGrid">
+            <div class="stat-card">
+                <div class="stat-label">Total Participants</div>
+                <div class="stat-number" id="totalParticipants">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Unique Offices</div>
+                <div class="stat-number" id="uniqueOffices">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Completion Rate</div>
+                <div class="stat-number" id="completionRate">0%</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Avg. Traits Selected</div>
+                <div class="stat-number" id="avgTraits">0</div>
+            </div>
+        </div>
+        
+        <div class="charts-container">
+            <div class="chart-box">
+                <div class="chart-title">Audience Profile Distribution</div>
+                <canvas id="profileChart"></canvas>
+            </div>
+            <div class="chart-box">
+                <div class="chart-title">Congressional Offices Targeted</div>
+                <div id="officesList"></div>
+            </div>
+            <div class="chart-box">
+                <div class="chart-title">Primary Concerns</div>
+                <canvas id="concernChart"></canvas>
+            </div>
+            <div class="chart-box">
+                <div class="chart-title">Top Moral Foundations</div>
+                <canvas id="foundationChart"></canvas>
+            </div>
+        </div>
+        
+        <div class="participants-table">
+            <div class="table-header">
+                <div class="table-title">Participant Details</div>
+                <input type="text" class="search-bar" id="searchBar" placeholder="Search participants..." onkeyup="filterTable()">
+            </div>
+            <div id="tableContainer">
+                <table id="participantsTable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Congressional Office</th>
+                            <th>Profile Match</th>
+                            <th>Primary Concern</th>
+                            <th>Time Completed</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <!-- Data will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="export-section">
+            <h3>Export Data</h3>
+            <button class="export-btn" onclick="exportCSV()">📊 Export as CSV</button>
+            <button class="export-btn" onclick="exportJSON()">💾 Export as JSON</button>
+            <button class="export-btn" onclick="printReport()">🖨️ Print Report</button>
+        </div>
+    </div>
+    
+    <script>
+        // API Configuration
+        const API_BASE_URL = window.location.hostname === 'localhost' ? 'http://localhost:3000/api' : '/api';
+        
+        let participantsData = [];
+        let autoRefreshInterval = null;
+        let charts = {};
+        
+        // Initialize dashboard on load
+        window.addEventListener('DOMContentLoaded', () => {
+            loadDashboardData();
+            enableAutoRefresh(); // Start with auto-refresh enabled
+        });
+        
+        async function loadDashboardData() {
+            try {
+                // Show loading state
+                updateLastUpdated();
+                
+                // Fetch data from API
+                const response = await fetch(`${API_BASE_URL}/participants`);
+                
+                if (!response.ok) {
+                    throw new Error('Failed to fetch data');
+                }
+                
+                participantsData = await response.json();
+                
+                // Update all dashboard components
+                updateStats();
+                updateCharts();
+                updateTable();
+                
+            } catch (error) {
+                console.error('Error loading dashboard data:', error);
+                // Show error state
+                showEmptyState();
+            }
+        }
+        
+        function updateLastUpdated() {
+            const now = new Date();
+            document.getElementById('lastUpdated').textContent = now.toLocaleTimeString();
+        }
+        
+        function updateStats() {
+            // Total participants
+            document.getElementById('totalParticipants').textContent = participantsData.length;
+            
+            // Unique offices
+            const uniqueOffices = new Set(participantsData.map(p => p.congressionalOffice?.split('|')[0])).size;
+            document.getElementById('uniqueOffices').textContent = uniqueOffices;
+            
+            // Completion rate (assuming all submitted are complete)
+            document.getElementById('completionRate').textContent = '100%';
+            
+            // Average traits selected
+            const avgTraits = participantsData.length > 0 
+                ? Math.round(participantsData.reduce((sum, p) => sum + (p.selectedTraits?.length || 0), 0) / participantsData.length)
+                : 0;
+            document.getElementById('avgTraits').textContent = avgTraits;
+        }
+        
+        function updateCharts() {
+            // Profile Distribution Chart
+            const profileCounts = {};
+            participantsData.forEach(p => {
+                profileCounts[p.audienceProfile] = (profileCounts[p.audienceProfile] || 0) + 1;
+            });
+            
+            const profileLabels = {
+                'empathetic': 'Empathetic Ambassadors',
+                'conflicted': 'Conflicted Harm Reducers',
+                'fearful': 'Fearful Protectors',
+                'traditional': 'Tough-on-Crime Traditionalists'
+            };
+            
+            if (charts.profile) charts.profile.destroy();
+            const profileCtx = document.getElementById('profileChart').getContext('2d');
+            charts.profile = new Chart(profileCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(profileCounts).map(k => profileLabels[k] || k),
+                    datasets: [{
+                        data: Object.values(profileCounts),
+                        backgroundColor: [
+                            '#FA009A',
+                            '#FFC547',
+                            '#E61313',
+                            '#511F4F'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+            
+            // Congressional Offices List
+            const officeCounts = {};
+            participantsData.forEach(p => {
+                const office = p.congressionalOffice?.split('|')[1] || 'Unknown';
+                officeCounts[office] = (officeCounts[office] || 0) + 1;
+            });
+            
+            const sortedOffices = Object.entries(officeCounts)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 10);
+            
+            let officesHTML = '';
+            sortedOffices.forEach(([office, count]) => {
+                const width = (count / participantsData.length) * 100;
+                officesHTML += `
+                    <div class="chart-bar" style="width: ${width}%">
+                        <span class="chart-bar-label">${office}</span>
+                        <span class="chart-bar-value">${count}</span>
+                    </div>
+                `;
+            });
+            document.getElementById('officesList').innerHTML = officesHTML || '<div class="empty-state">No data yet</div>';
+            
+            // Primary Concerns Chart
+            const concernCounts = {};
+            participantsData.forEach(p => {
+                concernCounts[p.primaryConcern] = (concernCounts[p.primaryConcern] || 0) + 1;
+            });
+            
+            const concernLabels = {
+                'safety': 'Public Safety',
+                'fairness': 'Fairness',
+                'economy': 'Economic Impact',
+                'fiscal': 'Fiscal Responsibility',
+                'rights': 'Individual Rights',
+                'unknown': 'Not Specified'
+            };
+            
+            if (charts.concern) charts.concern.destroy();
+            const concernCtx = document.getElementById('concernChart').getContext('2d');
+            charts.concern = new Chart(concernCtx, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(concernCounts).map(k => concernLabels[k] || k),
+                    datasets: [{
+                        label: 'Count',
+                        data: Object.values(concernCounts),
+                        backgroundColor: '#210043'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Moral Foundations Chart
+            const foundationCounts = {
+                care: 0, fairness: 0, liberty: 0,
+                loyalty: 0, authority: 0, sanctity: 0
+            };
+            
+            participantsData.forEach(p => {
+                (p.selectedTraits || []).forEach(trait => {
+                    const foundation = trait.split('-')[0];
+                    if (foundation === 'harm') foundationCounts.care++;
+                    else if (foundation === 'cheating') foundationCounts.fairness++;
+                    else if (foundation === 'oppression') foundationCounts.liberty++;
+                    else if (foundation in foundationCounts) foundationCounts[foundation]++;
+                });
+            });
+            
+            if (charts.foundation) charts.foundation.destroy();
+            const foundationCtx = document.getElementById('foundationChart').getContext('2d');
+            charts.foundation = new Chart(foundationCtx, {
+                type: 'radar',
+                data: {
+                    labels: ['Care/Harm', 'Fairness', 'Liberty', 'Loyalty', 'Authority', 'Sanctity'],
+                    datasets: [{
+                        label: 'Frequency',
+                        data: Object.values(foundationCounts),
+                        backgroundColor: 'rgba(33, 0, 67, 0.2)',
+                        borderColor: '#210043',
+                        pointBackgroundColor: '#E61313'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        r: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+        
+        function updateTable() {
+            const tbody = document.getElementById('tableBody');
+            
+            if (participantsData.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 40px;">No participants yet</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = participantsData
+                .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+                .map(p => {
+                    const office = p.congressionalOffice?.split('|')[1] || 'Unknown';
+                    const profileClass = `badge-${p.audienceProfile}`;
+                    const profileName = {
+                        'empathetic': 'Empathetic',
+                        'conflicted': 'Conflicted',
+                        'fearful': 'Fearful',
+                        'traditional': 'Traditional'
+                    }[p.audienceProfile] || p.audienceProfile;
+                    
+                    const time = new Date(p.timestamp).toLocaleString();
+                    
+                    return `
+                        <tr>
+                            <td>${p.name}</td>
+                            <td>${office}</td>
+                            <td><span class="profile-badge ${profileClass}">${profileName}</span></td>
+                            <td>${p.primaryConcern || 'Not specified'}</td>
+                            <td>${time}</td>
+                        </tr>
+                    `;
+                }).join('');
+        }
+        
+        function filterTable() {
+            const searchTerm = document.getElementById('searchBar').value.toLowerCase();
+            const rows = document.querySelectorAll('#tableBody tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchTerm) ? '' : 'none';
+            });
+        }
+        
+        function toggleAutoRefresh() {
+            const toggle = document.getElementById('autoRefreshToggle');
+            
+            if (toggle.classList.contains('active')) {
+                disableAutoRefresh();
+            } else {
+                enableAutoRefresh();
+            }
+        }
+        
+        function enableAutoRefresh() {
+            const toggle = document.getElementById('autoRefreshToggle');
+            toggle.classList.add('active');
+            
+            // Refresh every 30 seconds
+            autoRefreshInterval = setInterval(() => {
+                loadDashboardData();
+            }, 30000);
+        }
+        
+        function disableAutoRefresh() {
+            const toggle = document.getElementById('autoRefreshToggle');
+            toggle.classList.remove('active');
+            
+            if (autoRefreshInterval) {
+                clearInterval(autoRefreshInterval);
+                autoRefreshInterval = null;
+            }
+        }
+        
+        function exportCSV() {
+            let csv = 'Name,Congressional Office,Profile,Primary Concern,Adjectives,Priorities,Timestamp\n';
+            
+            participantsData.forEach(p => {
+                const office = p.congressionalOffice?.split('|')[1] || 'Unknown';
+                csv += `"${p.name}","${office}","${p.audienceProfile}","${p.primaryConcern}",`;
+                csv += `"${(p.adjectives || []).join(', ')}","${(p.priorities || []).join('; ')}","${p.timestamp}"\n`;
+            });
+            
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `clean-slate-participants-${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+        }
+        
+        function exportJSON() {
+            const json = JSON.stringify(participantsData, null, 2);
+            const blob = new Blob([json], { type: 'application/json' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `clean-slate-participants-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+        }
+        
+        function printReport() {
+            window.print();
+        }
+        
+        function showEmptyState() {
+            document.getElementById('statsGrid').innerHTML = `
+                <div class="empty-state" style="grid-column: 1 / -1;">
+                    <h3>No Data Available</h3>
+                    <p>Waiting for participants to complete the assessment...</p>
+                </div>
+            `;
+        }
+        
+        // Add print styles
+        const printStyles = document.createElement('style');
+        printStyles.innerHTML = `
+            @media print {
+                body {
+                    background: white;
+                }
+                .dashboard-controls,
+                .export-section {
+                    display: none;
+                }
+                .dashboard-container {
+                    max-width: 100%;
+                }
+                .chart-box {
+                    page-break-inside: avoid;
+                }
+            }
+        `;
+        document.head.appendChild(printStyles);
+    </script>
+</body>
+</html>
